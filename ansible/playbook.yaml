@@ -1,0 +1,9 @@
+- hosts: all
+  tasks:
+    - name: Load vault
+      ansible.builtin.include_vars:
+        file: vault/vault.yaml
+
+- hosts: k3s_servers
+  roles:
+    - k3s

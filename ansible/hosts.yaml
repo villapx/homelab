@@ -1,0 +1,8 @@
+---
+k3s_servers:
+  hosts:
+    carly:
+      ansible_host: carly.jeremyvilla.com
+      ansible_user: jvilla
+      k3s_installer_vars:
+        - INSTALL_K3S_EXEC: server
