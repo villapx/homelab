@@ -14,7 +14,10 @@
       register: installed_k3s_version
 
 - name: Install or upgrade k3s
-  when: ( not k3s_binary.stat.exists ) or ( k3s_version not in installed_k3s_version.stdout )
+  when: >-
+    ( not k3s_binary.stat.exists )
+    or ( k3s_version not in installed_k3s_version.stdout )
+    or ( force_k3s_install is defined )
   block:
     - name: Download k3s installer
       ansible.builtin.get_url:
@@ -39,3 +42,4 @@
           {{ k3s_env_var_assignments }}
           {{ k3s_installer_script.dest }}
           --token "{{ k3s.token }}"
+          {{ k3s_cmd_line_args | join(" ") }}

@@ -1,4 +1,9 @@
 ---
+ungrouped:
+  hosts:
+    localhost:
+      ansible_connection: local
+
 k3s_servers:
   hosts:
     carly:
@@ -6,3 +11,6 @@ k3s_servers:
       ansible_user: jvilla
       k3s_installer_vars:
         - INSTALL_K3S_EXEC: server
+      k3s_cmd_line_args:
+        - --disable
+        - servicelb
