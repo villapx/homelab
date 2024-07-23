@@ -1,0 +1,5 @@
+- name: Install helm-diff plugin
+  kubernetes.core.helm_plugin:
+    state: present
+    plugin_path: https://github.com/databus23/helm-diff
+    plugin_version: v3.9.9

@@ -1,1 +1,4 @@
+# kubernetes.core collection
+jsonpatch
+kubernetes
 PyYAML

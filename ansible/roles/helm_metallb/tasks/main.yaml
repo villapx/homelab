@@ -11,3 +11,12 @@
     release_namespace: metallb-system
     create_namespace: true
     update_repo_cache: true
+
+- name: Create configuration objects
+  vars:
+    metallb_address_pool: "{{ global_vars.metallb_address_pool }}"
+  kubernetes.core.k8s:
+    state: present
+    template:
+      - path: templates/ip-address-pool.yaml
+      - path: templates/l2-advertisement.yaml

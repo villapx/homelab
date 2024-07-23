@@ -4,6 +4,11 @@
       ansible.builtin.include_vars:
         file: vault/vault.yaml
 
+    # to save typing, the 'environment_name' variable is read from the vault
+    - name: Include global variables
+      ansible.builtin.include_vars:
+        file: "{{ environment_name }}.yaml"
+
 - hosts: k3s_servers
   roles:
     - k3s
