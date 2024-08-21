@@ -41,5 +41,5 @@
         cmd: >
           {{ k3s_env_var_assignments }}
           {{ k3s_installer_script.dest }}
-          --token "{{ k3s.token }}"
+          --token "{{ secrets.k3s.token }}"
           {{ k3s_cmd_line_args | join(" ") }}
