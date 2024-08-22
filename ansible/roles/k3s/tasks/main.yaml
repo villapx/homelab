@@ -31,7 +31,7 @@
         k3s_env_var_assignments: >-
           {%- for var_assignment in k3s_installer_vars -%}
           {%- for key, value in var_assignment.items() -%}
-          {{ key }}={{ value }}
+          {{ key }}="{{ value }}"
           {% endfor -%}
           {%- endfor -%}
 
@@ -40,6 +40,7 @@
       ansible.builtin.shell:
         cmd: >
           {{ k3s_env_var_assignments }}
+          INSTALL_K3S_VERSION="{{ k3s_version }}"
           {{ k3s_installer_script.dest }}
           --token "{{ secrets.k3s.token }}"
           {{ k3s_cmd_line_args | join(" ") }}
