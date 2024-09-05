@@ -1,4 +1,7 @@
 collections:
+  - name: community.general
+    type: galaxy
+    version: ">=8.0.0,<9.0.0"
   - name: kubernetes.core
     type: galaxy
     version: ">=3.0.0,<4.0.0"

@@ -1,3 +1,17 @@
+- name: Ensure dependencies are installed
+  become: true
+  ansible.builtin.package:
+    name:
+      - open-iscsi  # required for Longhorn to be able to provide persistent volumes to Kubernetes
+      - nfs-common  # required for RWX support in Longhorn
+    state: present
+
+- name: Enable iscsi_tcp kernel module
+  become: true
+  community.general.modprobe:
+    name: iscsi_tcp
+    persistent: present
+
 - name: Check current k3s version
   block:
     - name: Check if k3s is installed
