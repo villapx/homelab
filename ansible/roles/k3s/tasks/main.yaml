@@ -12,6 +12,26 @@
     name: iscsi_tcp
     persistent: present
 
+- name: Disable multipath on local devices
+  become: true
+  block:
+    - name: Ensure /etc/multipath/conf.d exists
+      ansible.builtin.file:
+        path: /etc/multipath/conf.d
+        state: directory
+
+    - name: Copy multipath config file
+      ansible.builtin.copy:
+        src: multipath-disable-local-devices.conf
+        dest: /etc/multipath/conf.d/disable-local-devices.conf
+      register: multipath_config_file
+
+    - name: Restart multipathd
+      when: multipath_config_file.changed
+      ansible.builtin.systemd_service:
+        name: multipathd.service
+        state: restarted
+
 - name: Check current k3s version
   block:
     - name: Check if k3s is installed
