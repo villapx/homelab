@@ -1,0 +1,124 @@
+service:
+  ui:
+    # -- Service type for Longhorn UI. (Options: "ClusterIP", "NodePort", "LoadBalancer", "Rancher-Proxy")
+    type: ClusterIP
+    # -- NodePort port number for Longhorn UI. When unspecified, Longhorn selects a free port between 30000 and 32767.
+    nodePort: null
+
+persistence:
+  # -- Replica count of the default Longhorn StorageClass.
+  defaultClassReplicaCount: 1
+  # -- Reclaim policy that provides instructions for handling of a volume after its claim is released. (Options: "Retain", "Delete")
+  reclaimPolicy: Retain
+
+#csi:
+#  # -- kubelet root directory. When unspecified, Longhorn uses the default value.
+#  kubeletRootDir: ~
+#  # -- Replica count of the CSI Attacher. When unspecified, Longhorn uses the default value ("3").
+#  attacherReplicaCount: ~
+#  # -- Replica count of the CSI Provisioner. When unspecified, Longhorn uses the default value ("3").
+#  provisionerReplicaCount: ~
+#  # -- Replica count of the CSI Resizer. When unspecified, Longhorn uses the default value ("3").
+#  resizerReplicaCount: ~
+#  # -- Replica count of the CSI Snapshotter. When unspecified, Longhorn uses the default value ("3").
+#  snapshotterReplicaCount: ~
+
+defaultSettings:
+  # -- Setting that allows Longhorn to automatically create a default disk only on nodes with the label "node.longhorn.io/create-default-disk=true" (if no other disks exist). When this setting is disabled, Longhorn creates a default disk on each node that is added to the cluster.
+  createDefaultDiskLabeledNodes: true
+  # -- Percentage of minimum available disk capacity. When the minimum available capacity exceeds the total available capacity, the disk becomes unschedulable until more space is made available for use. The default value is "25".
+  storageMinimalAvailablePercentage: 2
+  # -- Percentage of disk space that is not allocated to the default disk on each new Longhorn node.
+  storageReservedPercentageForDefaultDisk: 0
+  # -- Default number of replicas for volumes created using the Longhorn UI. For Kubernetes configuration, modify the `numberOfReplicas` field in the StorageClass. The default value is "3".
+  defaultReplicaCount: 1
+  # -- Setting that allows you to enable the V1 Data Engine.
+  #v1DataEngine: ~
+  # -- Setting that allows you to enable the V2 Data Engine, which is based on the Storage Performance Development Kit (SPDK). The V2 Data Engine is a preview feature and should not be used in production environments.
+  #v2DataEngine: ~
+  # -- Setting that allows you to configure maximum huge page size (in MiB) for the V2 Data Engine.
+  #v2DataEngineHugepageLimit: ~
+  # -- Number of millicpus on each node to be reserved for each Instance Manager pod when the V2 Data Engine is enabled. The default value is "1250".
+  #v2DataEngineGuaranteedInstanceManagerCPU: ~
+  # -- Setting that allows scheduling of empty node selector volumes to any node.
+  #allowEmptyNodeSelectorVolume: ~
+  # -- Setting that allows scheduling of empty disk selector volumes to any disk.
+  #allowEmptyDiskSelectorVolume: ~
+  # -- Setting that allows Longhorn to periodically collect anonymous usage data for product improvement purposes. Longhorn sends collected data to the [Upgrade Responder](https://github.com/longhorn/upgrade-responder) server, which is the data source of the Longhorn Public Metrics Dashboard (https://metrics.longhorn.io). The Upgrade Responder server does not store data that can be used to identify clients, including IP addresses.
+  allowCollectingLonghornUsageMetrics: true
+  # -- Setting that temporarily prevents all attempts to purge volume snapshots.
+  #disableSnapshotPurge: ~
+  # -- Maximum snapshot count for a volume. The value should be between 2 to 250
+  snapshotMaxCount: 5
+  # -- Setting that allows you to configure the log level of the SPDK target daemon (spdk_tgt) of the V2 Data Engine.
+  #v2DataEngineLogLevel: ~
+  # -- Setting that allows you to configure the log flags of the SPDK target daemon (spdk_tgt) of the V2 Data Engine.
+  #v2DataEngineLogFlags: ~
+  # -- Setting that freezes the filesystem on the root partition before a snapshot is created.
+  #freezeFilesystemForSnapshot: ~
+  # -- Setting that automatically cleans up the snapshot when the backup is deleted.
+  #autoCleanupSnapshotWhenDeleteBackup: ~
+  # -- Turn on logic to detect and move RWX volumes quickly on node failure.
+  #rwxVolumeFastFailover: ~
+
+longhornUI:
+  # -- Replica count for Longhorn UI.
+  replicas: 1
+
+ingress:
+  # -- Setting that allows Longhorn to generate ingress records for the Longhorn UI service.
+  enabled: true
+
+  # -- IngressClass resource that contains ingress configuration, including the name of the Ingress controller.
+  # ingressClassName can replace the kubernetes.io/ingress.class annotation used in earlier Kubernetes releases.
+  ingressClassName: traefik
+
+  # -- Hostname of the Layer 7 load balancer.
+  host: longhorn.thevillas.io
+
+  # -- Setting that allows you to enable TLS on ingress records.
+  #tls: false
+
+  # -- Setting that allows you to enable secure connections to the Longhorn UI service via port 443.
+  #secureBackends: false
+
+  # -- TLS secret that contains the private key and certificate to be used for TLS. This setting applies only when TLS is enabled on ingress records.
+  #tlsSecret: longhorn.local-tls
+
+  # -- Default ingress path. You can access the Longhorn UI by following the full ingress path {{host}}+{{path}}.
+  #path: /
+
+  # -- Ingress path type. To maintain backward compatibility, the default value is "ImplementationSpecific".
+  pathType: Prefix
+
+  ## If you're using kube-lego, you will want to add:
+  ## kubernetes.io/tls-acme: true
+  ##
+  ## For a full list of possible ingress annotations, please see
+  ## ref: https://github.com/kubernetes/ingress-nginx/blob/master/docs/annotations.md
+  ##
+  ## If tls is set to true, annotation ingress.kubernetes.io/secure-backends: "true" will automatically be set
+  # -- Ingress annotations in the form of key-value pairs.
+  #annotations:
+  #  kubernetes.io/ingress.class: nginx
+  #  kubernetes.io/tls-acme: true
+
+  # -- Secret that contains a TLS private key and certificate. Use secrets if you want to use your own certificates to secure ingresses.
+  #secrets:
+  ## If you're providing your own certificates, please use this to add the certificates as secrets
+  ## key and certificate should start with -----BEGIN CERTIFICATE----- or
+  ## -----BEGIN RSA PRIVATE KEY-----
+  ##
+  ## name should line up with a tlsSecret set further up
+  ## If you're using kube-lego, this is unneeded, as it will create the secret for you if it is not set
+  ##
+  ## It is also possible to create and manage the certificates outside of this helm chart
+  ## Please see README.md for more information
+  # - name: longhorn.local-tls
+  #   key:
+  #   certificate:
+
+#metrics:
+#  serviceMonitor:
+#    # -- Setting that allows the creation of a Prometheus ServiceMonitor resource for Longhorn Manager components.
+#    enabled: true
