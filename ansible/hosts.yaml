@@ -7,6 +7,7 @@ ungrouped:
 k3s_servers:
   hosts:
     carly:
+      # TODO add info for longhorn label and annotation
       ansible_host: carly.home
       ansible_user: jvilla
       k3s_installer_vars:
