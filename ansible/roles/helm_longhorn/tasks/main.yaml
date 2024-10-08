@@ -11,5 +11,4 @@
     release_namespace: longhorn-system
     create_namespace: true
     update_repo_cache: true
-    values_files:
-      - files/values.yaml
+    values: "{{ lookup('ansible.builtin.template', 'templates/values.yaml') | from_yaml }}"
