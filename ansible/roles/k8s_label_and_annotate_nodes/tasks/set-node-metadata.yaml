@@ -1,0 +1,11 @@
+# this file is included in a nested loop, once for each label and annotation per k8s node
+
+- name: Set node metadata
+  kubernetes.core.k8s:
+    state: patched
+    kind: Node
+    name: "{{ hostvars[node].ansible_host }}"
+    definition:
+      metadata:
+        "{{ metadata_type }}":
+          "{{ item.key }}": "{{ item.value }}"

@@ -1,0 +1,15 @@
+# this file is included in a loop, once per k8s node
+
+- name: Label k8s node
+  include_tasks: set-node-metadata.yaml
+  vars:
+    metadata_type: labels
+  when: "'k8s_labels' in hostvars[node]"
+  loop: "{{ hostvars[node].k8s_labels }}"
+
+- name: Annotate k8s node
+  include_tasks: set-node-metadata.yaml
+  vars:
+    metadata_type: annotations
+  when: "'k8s_annotations' in hostvars[node]"
+  loop: "{{ hostvars[node].k8s_annotations }}"

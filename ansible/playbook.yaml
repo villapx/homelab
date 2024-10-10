@@ -13,9 +13,8 @@
   roles:
     - k3s
 
-# TODO need to label and annotate nodes somewhere
-
 - hosts: localhost
   roles:
+    - k8s_label_and_annotate_nodes
     - helm_metallb
     - helm_longhorn

@@ -7,7 +7,6 @@ ungrouped:
 k3s_servers:
   hosts:
     carly:
-      # TODO add info for longhorn label and annotation
       ansible_host: carly.home
       ansible_user: jvilla
       k3s_installer_vars:
@@ -15,3 +14,10 @@ k3s_servers:
       k3s_cmd_line_args:
         - --disable
         - servicelb
+      k8s_labels:
+        - key: node.longhorn.io/create-default-disk
+          value: config
+      k8s_annotations:
+        - key: node.longhorn.io/default-disks-config
+          value: |-
+            [ { "path": "/var/lib/longhorn", "allowScheduling": true } ]

@@ -1,0 +1,5 @@
+- name: Label and annotate k8s nodes
+  include_tasks: label-and-annotate-node.yaml
+  loop: "{{ groups.k3s_servers }}"
+  loop_control:
+    loop_var: node

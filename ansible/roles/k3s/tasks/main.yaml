@@ -32,6 +32,27 @@
         name: multipathd.service
         state: restarted
 
+- name: Remove swap
+  block:
+    - name: Check if swap is configured
+      changed_when: false
+      register: swap_configured
+      ignore_errors: true
+      ansible.builtin.shell:
+        cmd: grep --extended-regexp '^([^[:blank:]]+[[:blank:]]+){2}swap' /etc/fstab
+
+    - name: swapoff
+      become: true
+      when: swap_configured.rc == 0
+      ansible.builtin.shell:
+        cmd: swapoff --all
+
+    - name: Remove swap from /etc/fstab
+      become: true
+      when: swap_configured.rc == 0
+      ansible.builtin.shell:
+        cmd: sed --in-place --regexp-extended '/^([^[:blank:]]+[[:blank:]]+){2}swap/d' /etc/fstab
+
 - name: Check current k3s version
   block:
     - name: Check if k3s is installed
@@ -78,24 +99,3 @@
           {{ k3s_installer_script.dest }}
           --token "{{ secrets.k3s.token }}"
           {{ k3s_cmd_line_args | join(" ") }}
-
-- name: Remove swap
-  block:
-    - name: Check if swap is configured
-      changed_when: false
-      register: swap_configured
-      ignore_errors: true
-      ansible.builtin.shell:
-        cmd: grep --extended-regexp '^([^[:blank:]]+[[:blank:]]+){2}swap' /etc/fstab
-
-    - name: swapoff
-      become: true
-      when: swap_configured.rc == 0
-      ansible.builtin.shell:
-        cmd: swapoff --all
-
-    - name: Remove swap from /etc/fstab
-      become: true
-      when: swap_configured.rc == 0
-      ansible.builtin.shell:
-        cmd: sed --in-place --regexp-extended '/^([^[:blank:]]+[[:blank:]]+){2}swap/d' /etc/fstab
