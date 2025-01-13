@@ -2,10 +2,9 @@
 
 - name: Set node metadata
   kubernetes.core.k8s:
-    state: patched
     kind: Node
     name: "{{ hostvars[node].ansible_host }}"
     definition:
-      metadata:
-        "{{ metadata_type }}":
-          "{{ item.key }}": "{{ item.value }}"
+      metadata: "{{ node_metadata }}"
+  vars:
+    node_metadata: "{{ {metadata_type: {item.key: item.value}} }}"
