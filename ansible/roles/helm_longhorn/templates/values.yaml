@@ -11,6 +11,16 @@ persistence:
   # -- Reclaim policy that provides instructions for handling of a volume after its claim is released. (Options: "Retain", "Delete")
   reclaimPolicy: Retain
 
+csi:
+  # -- Replica count of the CSI Attacher. When unspecified, Longhorn uses the default value ("3").
+  attacherReplicaCount: 1
+  # -- Replica count of the CSI Provisioner. When unspecified, Longhorn uses the default value ("3").
+  provisionerReplicaCount: 1
+  # -- Replica count of the CSI Resizer. When unspecified, Longhorn uses the default value ("3").
+  resizerReplicaCount: 1
+  # -- Replica count of the CSI Snapshotter. When unspecified, Longhorn uses the default value ("3").
+  snapshotterReplicaCount: 1
+
 defaultSettings:
   # -- Setting that allows Longhorn to automatically create a default disk only on nodes with the label "node.longhorn.io/create-default-disk=true" (if no other disks exist). When this setting is disabled, Longhorn creates a default disk on each node that is added to the cluster.
   createDefaultDiskLabeledNodes: true
