@@ -6,7 +6,7 @@
 - name: Install
   kubernetes.core.helm:
     chart_ref: metallb/metallb
-    chart_version: 0.14.7
+    chart_version: 0.15.2
     release_name: metallb
     release_namespace: metallb-system
     create_namespace: true
