@@ -6,7 +6,7 @@
 - name: Install
   kubernetes.core.helm:
     chart_ref: longhorn/longhorn
-    chart_version: 1.8.2
+    chart_version: 1.9.1
     release_name: longhorn
     release_namespace: longhorn-system
     create_namespace: true
