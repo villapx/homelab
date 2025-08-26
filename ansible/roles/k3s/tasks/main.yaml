@@ -99,3 +99,14 @@
           {{ k3s_installer_script.dest }}
           --token "{{ secrets.k3s.token }}"
           {{ k3s_cmd_line_args | join(" ") }}
+
+- name: Configure Traefik
+  block:
+    - name: Add annotation to set LoadBalancer Service IP
+      become: true
+      vars:
+        # select first IP address in MetalLB address pool
+        ip_address: "{{ global_vars.metallb_address_pool | ansible.utils.nthhost(0) }}"
+      ansible.builtin.template:
+        src: traefik-config.yaml
+        dest: /var/lib/rancher/k3s/server/manifests/traefik-config.yaml
