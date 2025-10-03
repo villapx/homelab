@@ -45,13 +45,13 @@ ingress:
 
   # -- IngressClass resource that contains ingress configuration, including the name of the Ingress controller.
   # ingressClassName can replace the kubernetes.io/ingress.class annotation used in earlier Kubernetes releases.
-  ingressClassName: traefik
+  ingressClassName: tailscale
 
   # -- Hostname of the Layer 7 load balancer.
-  host: "{{ global_vars.longhorn_ui_ingress_host }}"
+  host: longhorn
 
   # -- Setting that allows you to enable TLS on ingress records.
-  #tls: false
+  tls: true
 
   # -- Setting that allows you to enable secure connections to the Longhorn UI service via port 443.
   #secureBackends: false
@@ -63,7 +63,7 @@ ingress:
   #path: /
 
   # -- Ingress path type. To maintain backward compatibility, the default value is "ImplementationSpecific".
-  pathType: Prefix
+  #pathType: Prefix
 
   ## If you're using kube-lego, you will want to add:
   ## kubernetes.io/tls-acme: true
