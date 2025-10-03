@@ -13,3 +13,4 @@ spec:
     service:
       annotations:
         metallb.io/loadBalancerIPs: {{ ip_address }}
+      loadBalancerClass: metallb

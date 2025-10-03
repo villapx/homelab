@@ -11,6 +11,7 @@
     release_namespace: metallb-system
     create_namespace: true
     update_repo_cache: true
+    values: "{{ lookup('ansible.builtin.template', 'templates/values.yaml') | from_yaml }}"
 
 - name: Create configuration objects
   vars:

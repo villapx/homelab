@@ -18,3 +18,4 @@
     - k8s_label_and_annotate_nodes
     - helm_metallb
     - helm_longhorn
+    - helm_tailscale_operator
