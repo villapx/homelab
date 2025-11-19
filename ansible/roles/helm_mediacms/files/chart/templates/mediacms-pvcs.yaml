@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mediacms-media-store
+  namespace: {{ .Release.Namespace }}
+spec:
+  storageClassName: longhorn-static
+  volumeName: mediacms-media
+  accessModes: ["ReadWriteMany"]
+  resources:
+    requests:
+      storage: 200Gi
