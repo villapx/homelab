@@ -13,7 +13,7 @@ spec:
       containers:
         - name: mediacms-migrations
           image: mediacms/mediacms:{{ .Values.mediacms_version }}
-          command: ["./deploy/docker/prestart.sh"]
+          args: ["./deploy/docker/prestart.sh"]
           env:
             - name: ENABLE_UWSGI
               value: "no"
@@ -29,6 +29,8 @@ spec:
               value: "admin"
             - name: ADMIN_EMAIL
               value: "admin@localhost"
+            - name: ADMIN_PASSWORD
+              value: "password"
             - name: FRONTEND_HOST
               value: mediacms.{{ .Values.domain }}
             - name: REDIS_LOCATION

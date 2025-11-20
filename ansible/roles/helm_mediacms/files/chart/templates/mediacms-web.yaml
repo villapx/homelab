@@ -38,8 +38,6 @@ spec:
                 secretKeyRef:
                   name: mediacms-secret-key
                   key: SECRET_KEY
-            - name: DATABASE_URL
-              value: postgres://mediacms:mediacms@mediacms-db:5432/mediacms
           volumeMounts:
             - name: mediacms-media-store
               mountPath: /home/mediacms.io/mediacms/media_files/
