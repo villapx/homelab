@@ -1,0 +1,7 @@
+- name: "Configure CephFS volumes"
+  include_tasks: "configure-volume.yaml"
+  loop:
+    - "mediacms_media_store"
+    - "mediacms_postgresql_data"
+  loop_control:
+    loop_var: "ceph_volume"

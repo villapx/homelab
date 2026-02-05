@@ -3,21 +3,6 @@ ungrouped:
   hosts:
     localhost:
       ansible_connection: local
-
-k3s_servers:
-  hosts:
     carly:
-      ansible_host: carly.home
+      ansible_host: carly
       ansible_user: jvilla
-      k3s_installer_vars:
-        - INSTALL_K3S_EXEC: server
-      k3s_cmd_line_args:
-        - --disable
-        - servicelb
-      k8s_labels:
-        - key: node.longhorn.io/create-default-disk
-          value: config
-      k8s_annotations:
-        - key: node.longhorn.io/default-disks-config
-          value: |-
-            [ { "path": "/var/lib/longhorn", "allowScheduling": true }, { "path": "/var/lib/longhorn1", "allowScheduling": true } ]

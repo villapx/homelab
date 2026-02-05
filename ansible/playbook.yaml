@@ -1,21 +1,14 @@
-- hosts: all
+- hosts: "all"
   tasks:
-    - name: Load vault
+    - name: "Load vault"
       ansible.builtin.include_vars:
-        file: vault/vault.yaml
+        file: "vault/vault.yaml"
 
     # to save typing, the 'environment_name' variable is read from the vault
-    - name: Include global variables
+    - name: "Include global variables"
       ansible.builtin.include_vars:
         file: "{{ environment_name }}.yaml"
 
-- hosts: k3s_servers
+- hosts: "carly"
   roles:
-    - k3s
-
-- hosts: localhost
-  roles:
-    - k8s_label_and_annotate_nodes
-    - helm_metallb
-    - helm_longhorn
-    - helm_tailscale_operator
+    - "create_ceph_volumes"

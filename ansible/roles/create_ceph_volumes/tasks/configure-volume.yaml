@@ -1,0 +1,70 @@
+# this file is included in a loop, once per CephFS volume.
+
+- name: "Create CephFS volume"
+  become: true
+  ansible.builtin.command:
+    cmd: "ceph fs volume create {{ ceph_volume }}"
+  changed_when: false
+
+- name: "Set client entity name fact"
+  ansible.builtin.set_fact:
+    entity_name: "client.{{ ceph_volume }}"
+
+- name: "Check if CephFS client exists"
+  become: true
+  ansible.builtin.command:
+    cmd: "ceph auth get {{ entity_name }}"
+  register: "get_client"
+  changed_when: false
+  ignore_errors: true
+
+- name: "Create CephFS client"
+  become: true
+  when: "get_client.rc != 0"
+  ansible.builtin.command:
+    cmd: "ceph auth add {{ entity_name }}"
+
+- name: "Get current client capabilities"
+  become: true
+  ansible.builtin.command:
+    cmd: "ceph auth get '{{ entity_name }}' -f json"
+  register: "get_client"
+  changed_when: false
+
+# example output (with `-f json-pretty`):
+#
+# [
+#   {
+#     "entity": "client.mediacms_postgresql_data",
+#     "key": "redacted",
+#     "caps": {
+#       "mds": "allow rw fsname=mediacms_postgresql_data",
+#       "mgr": "allow r",
+#       "mon": "allow r",
+#       "osd": "allow rw pool=cephfs.mediacms_postgresql_data.meta,allow rw pool=cephfs.mediacms_postgresql_data.data"
+#     }
+#   }
+# ]
+
+- name: "Set client capabilities fact (dict)"
+  ansible.builtin.set_fact:
+    capabilities:
+      mon: "allow r"
+      mgr: "allow r"
+      mds: "allow rw fsname={{ ceph_volume }}"
+      osd: "allow rw pool=cephfs.{{ ceph_volume }}.meta,allow rw pool=cephfs.{{ ceph_volume }}.data"
+
+- name: "Update CephFS client capabilities if needed"
+  when: "(get_client.stdout | from_json | first)['caps'] != capabilities"
+  block:
+    - name: Convert client capabilities dict to string format appropriate for `ceph auth caps`
+      ansible.builtin.set_fact:
+        capabilities_str: >
+          {%- for key, value in capabilities.items() -%}
+          {{ key }} '{{ value }}'
+          {% endfor -%}
+
+    - name: "Update CephFS client capabilities"
+      become: true
+      ansible.builtin.command:
+        cmd: "ceph auth caps '{{ entity_name }}' {{ capabilities_str }}"
