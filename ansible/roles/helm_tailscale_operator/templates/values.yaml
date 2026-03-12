@@ -1,3 +1,0 @@
-oauth:
-  clientId: "{{ secrets.tailscale_operator.oauth.client_id }}"
-  clientSecret: "{{ secrets.tailscale_operator.oauth.client_secret }}"
