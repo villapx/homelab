@@ -14,15 +14,13 @@ services:
       POSTGRES_HOST: mediacms-db
     command: "./deploy/docker/prestart.sh"
     restart: on-failure
-    #depends_on:
-    #  mediacms-redis:
-    #    condition: service_healthy
-    #  mediacms-db:
-    #    condition: service_healthy
+    depends_on:
+      mediacms-redis:
+        condition: service_healthy
+      mediacms-db:
+        condition: service_healthy
   mediacms-web:
     image: mediacms/mediacms:7.2.0
-    deploy:
-      replicas: 1
     ports:
       - "8440:80"
     volumes:
@@ -34,8 +32,9 @@ services:
       ENABLE_MIGRATIONS: 'no'
       REDIS_LOCATION: redis://mediacms-redis:6379/1
       POSTGRES_HOST: mediacms-db
-    #depends_on:
-    #  - mediacms-migrations
+    restart: always
+    depends_on:
+      - mediacms-migrations
   mediacms-celery-beat:
     image: mediacms/mediacms:7.2.0
     environment:
@@ -46,12 +45,10 @@ services:
       ENABLE_MIGRATIONS: 'no'
       REDIS_LOCATION: redis://mediacms-redis:6379/1
       POSTGRES_HOST: mediacms-db
-    #depends_on:
-    #  - mediacms-redis
+    depends_on:
+      - mediacms-redis
   mediacms-celery-worker:
     image: mediacms/mediacms:7.2.0
-    deploy:
-      replicas: 1
     volumes:
       - media_store:/home/mediacms.io/mediacms/media_files/
     environment:
@@ -61,8 +58,8 @@ services:
       ENABLE_MIGRATIONS: 'no'
       REDIS_LOCATION: redis://mediacms-redis:6379/1
       POSTGRES_HOST: mediacms-db
-    #depends_on:
-    #  - mediacms-migrations
+    depends_on:
+      - mediacms-migrations
   mediacms-db:
     image: postgres:17.2-alpine
     volumes:
@@ -72,7 +69,7 @@ services:
       POSTGRES_USER: mediacms
       POSTGRES_PASSWORD: mediacms
       POSTGRES_DB: mediacms
-      TZ: Europe/London
+      TZ: America/New_York
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}", "--host=db", "--dbname=$POSTGRES_DB", "--username=$POSTGRES_USER"]
       interval: 30s
