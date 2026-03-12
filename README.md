@@ -36,26 +36,11 @@ sudo microceph disk add /dev/{sda,sdb} --wipe --encrypt
 
 
 # Run playbook
-TODO update from here on down
-
-First, provision the k3s servers:
 
 ```bash
 ansible-playbook playbook.yaml \
     --inventory hosts.yaml \
     --vault-id prod@prompt \
     --ask-become-pass \
-    --limit k3s_servers
-```
-
-Next, copy out the server cert, client cert and client key from `/etc/rancher/k3s/k3s.yaml` into `~/.kube/config`.
-
-Finally, exercise the k8s API to install everything into the k8s cluster:
-
-```bash
-ansible-playbook playbook.yaml \
-    --inventory hosts.yaml \
-    --vault-id prod@prompt \
-    --ask-become-pass \
-    --limit localhost
+    --limit carly
 ```

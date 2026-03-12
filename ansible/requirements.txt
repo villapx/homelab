@@ -1,6 +1,2 @@
 # ansible.utils collection
 netaddr
-# kubernetes.core collection
-jsonpatch
-kubernetes
-PyYAML
