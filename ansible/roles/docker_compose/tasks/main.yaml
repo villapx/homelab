@@ -1,0 +1,76 @@
+- name: "Create traefik directory"
+  become: true
+  ansible.builtin.file:
+    path: "/opt/homelab/traefik"
+    state: directory
+    mode: "0755"
+
+- name: "Deploy traefik docker-compose.yaml"
+  become: true
+  ansible.builtin.template:
+    src: "traefik/docker-compose.yaml"
+    dest: "/opt/homelab/traefik/docker-compose.yaml"
+    mode: "0644"
+
+- name: "Start traefik"
+  become: true
+  ansible.builtin.command:
+    cmd: "docker compose up -d --remove-orphans"
+    chdir: "/opt/homelab/traefik"
+  changed_when: false
+
+- name: "Create mediacms directories"
+  become: true
+  ansible.builtin.file:
+    path: "/opt/homelab/mediacms"
+    state: directory
+    mode: "0755"
+
+- name: "Deploy mediacms docker-compose.yaml"
+  become: true
+  ansible.builtin.template:
+    src: "mediacms/docker-compose.yaml"
+    dest: "/opt/homelab/mediacms/docker-compose.yaml"
+    mode: "0644"
+
+- name: "Deploy mediacms .env"
+  become: true
+  ansible.builtin.template:
+    src: "mediacms/.env"
+    dest: "/opt/homelab/mediacms/.env"
+    mode: "0600"
+
+- name: "Start mediacms"
+  become: true
+  ansible.builtin.command:
+    cmd: "docker compose up -d --remove-orphans"
+    chdir: "/opt/homelab/mediacms"
+  changed_when: false
+
+- name: "Create photoprism directory"
+  become: true
+  ansible.builtin.file:
+    path: "/opt/homelab/photoprism"
+    state: directory
+    mode: "0755"
+
+- name: "Deploy photoprism docker-compose.yaml"
+  become: true
+  ansible.builtin.template:
+    src: "photoprism/docker-compose.yaml"
+    dest: "/opt/homelab/photoprism/docker-compose.yaml"
+    mode: "0644"
+
+- name: "Deploy photoprism .env"
+  become: true
+  ansible.builtin.template:
+    src: "photoprism/.env"
+    dest: "/opt/homelab/photoprism/.env"
+    mode: "0600"
+
+- name: "Start photoprism"
+  become: true
+  ansible.builtin.command:
+    cmd: "docker compose up -d --remove-orphans"
+    chdir: "/opt/homelab/photoprism"
+  changed_when: false

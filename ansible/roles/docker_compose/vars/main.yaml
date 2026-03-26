@@ -1,2 +1,4 @@
 docker_compose:
   mediacms_version: "7.2.0"
+  traefik_version: "v3"
+  photoprism_version: "latest"

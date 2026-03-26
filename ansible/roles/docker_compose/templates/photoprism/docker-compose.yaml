@@ -1,0 +1,18 @@
+services:
+  photoprism:
+    image: "photoprism/photoprism:{{ docker_compose.photoprism_version }}"
+    env_file: ".env"
+    volumes:
+      - "/opt/homelab/photoprism/originals:/photoprism/originals"
+      - "/opt/homelab/photoprism/storage:/photoprism/storage"
+      - "/opt/homelab/photoprism/import:/photoprism/import"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.photoprism.rule=Host(`photos.{{ secrets.domain_name }}`)"
+      - "traefik.http.services.photoprism.loadbalancer.server.port=2342"
+    networks:
+      - traefik_proxy
+
+networks:
+  traefik_proxy:
+    external: true

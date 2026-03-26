@@ -4,7 +4,10 @@ secrets:
     domain_name: "dog-snake.ts.net"
     oauth_client_key: "aaaaaaaaabbbbbbbb"
     oauth_client_secret: "tskey-client-zzzzzzzzzzzzzzzzz-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+  domain_name: "thevillas.io"
   mediacms:
     secret_key: "aaaaaaa!!!!!!!(((((((()))))))))^^^^^^^^^1111111111"
     admin_password: "password"
     postgres_password: "postgres"
+  photoprism:
+    admin_password: "password"

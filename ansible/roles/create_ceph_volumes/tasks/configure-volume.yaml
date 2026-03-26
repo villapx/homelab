@@ -68,3 +68,33 @@
       become: true
       ansible.builtin.command:
         cmd: "ceph auth caps '{{ entity_name }}' {{ capabilities_str }}"
+
+- name: "Get CephFS client keyring"
+  become: true
+  ansible.builtin.command:
+    cmd: "ceph auth get-key {{ entity_name }}"
+  register: "ceph_keyring"
+  changed_when: false
+
+- name: "Write CephFS keyring file"
+  become: true
+  ansible.builtin.copy:
+    content: "{{ ceph_keyring.stdout }}"
+    dest: "/etc/ceph/{{ ceph_volume }}.keyring"
+    mode: "0600"
+
+- name: "Create CephFS mount directory"
+  become: true
+  ansible.builtin.file:
+    path: "{{ ceph_volume_mounts[ceph_volume] }}"
+    state: directory
+    mode: "0755"
+
+- name: "Mount CephFS volume"
+  become: true
+  ansible.builtin.mount:
+    src: "{{ ceph_monitor_host }}:/"
+    path: "{{ ceph_volume_mounts[ceph_volume] }}"
+    fstype: ceph
+    opts: "name={{ ceph_volume }},secretfile=/etc/ceph/{{ ceph_volume }}.keyring,noatime,_netdev"
+    state: mounted

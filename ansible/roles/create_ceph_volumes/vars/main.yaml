@@ -1,0 +1,6 @@
+ceph_volume_mounts:
+  mediacms_media_store: "/opt/homelab/mediacms/media_store"
+  mediacms_postgresql_data: "/opt/homelab/mediacms/postgres_data"
+  photoprism_originals: "/opt/homelab/photoprism/originals"
+  photoprism_storage: "/opt/homelab/photoprism/storage"
+  photoprism_import: "/opt/homelab/photoprism/import"
