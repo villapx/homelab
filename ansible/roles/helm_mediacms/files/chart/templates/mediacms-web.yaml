@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: mediacms-web
-  namespace: {{ .Release.Namespace }}
+  namespace: "{{ .Release.Namespace }}"
 spec:
   replicas: 1
   selector:
@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: web
-          image: mediacms/mediacms:{{ .Values.mediacms_version }}
+          image: "mediacms/mediacms:{{ .Values.mediacms_version }}"
           ports:
             - containerPort: 80
           env:
@@ -28,7 +28,7 @@ spec:
             - name: ENABLE_MIGRATIONS
               value: "no"
             - name: FRONTEND_HOST
-              value: mediacms.{{ .Values.domain }}
+              value: "mediacms.{{ .Values.domain }}"
             - name: REDIS_LOCATION
               value: redis://mediacms-redis:6379/1
             - name: POSTGRES_HOST
@@ -50,7 +50,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: mediacms-web
-  namespace: {{ .Release.Namespace }}
+  namespace: "{{ .Release.Namespace }}"
 spec:
   selector:
     app: mediacms-web
@@ -62,7 +62,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: mediacms-web
-  namespace: {{ .Release.Namespace }}
+  namespace: "{{ .Release.Namespace }}"
 spec:
   ingressClassName: tailscale
   tls:

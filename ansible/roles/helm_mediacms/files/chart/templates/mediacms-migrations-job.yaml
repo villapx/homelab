@@ -2,7 +2,7 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: mediacms-migrations
-  namespace: {{ .Release.Namespace }}
+  namespace: "{{ .Release.Namespace }}"
 spec:
   template:
     metadata:
@@ -12,8 +12,9 @@ spec:
       restartPolicy: OnFailure
       containers:
         - name: mediacms-migrations
-          image: mediacms/mediacms:{{ .Values.mediacms_version }}
-          args: ["./deploy/docker/prestart.sh"]
+          image: "mediacms/mediacms:{{ .Values.mediacms_version }}"
+          args:
+            - "./deploy/docker/prestart.sh"
           env:
             - name: ENABLE_UWSGI
               value: "no"
@@ -32,7 +33,7 @@ spec:
             - name: ADMIN_PASSWORD
               value: "password"
             - name: FRONTEND_HOST
-              value: mediacms.{{ .Values.domain }}
+              value: "mediacms.{{ .Values.domain }}"
             - name: REDIS_LOCATION
               value: redis://mediacms-redis:6379/1
             - name: POSTGRES_HOST

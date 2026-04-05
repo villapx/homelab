@@ -19,3 +19,4 @@
     - helm_metallb
     - helm_longhorn
     - helm_tailscale_operator
+    - helm_mediacms

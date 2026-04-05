@@ -1,0 +1,7 @@
+- name: Install
+  kubernetes.core.helm:
+    chart_ref: "{{ role_path }}/files/chart"
+    release_name: mediacms
+    release_namespace: mediacms
+    create_namespace: true
+    values: "{{ lookup('ansible.builtin.template', 'templates/values.yaml') | from_yaml }}"
