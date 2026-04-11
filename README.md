@@ -21,7 +21,7 @@ pipx runpip ansible-core install -r requirements.txt
 First, provision the k3s servers:
 
 ```bash
-ansible-playbook playbook.yaml \
+ansible-playbook playbook-k8s-install.yaml \
     --inventory hosts.yaml \
     --vault-id prod@prompt \
     --ask-become-pass \
@@ -30,12 +30,20 @@ ansible-playbook playbook.yaml \
 
 Next, copy out the server cert, client cert and client key from `/etc/rancher/k3s/k3s.yaml` into `~/.kube/config`.
 
-Finally, exercise the k8s API to install everything into the k8s cluster:
+Then, install the system apps into the k8s cluster:
 
 ```bash
-ansible-playbook playbook.yaml \
+ansible-playbook playbook-k8s-install.yaml \
     --inventory hosts.yaml \
     --vault-id prod@prompt \
-    --ask-become-pass \
-    --limit localhost
+    --ask-become-pass
+```
+
+Finally, install the user apps into the k8s cluster:
+
+```bash
+ansible-playbook playbook-apps-install.yaml \
+    --inventory hosts.yaml \
+    --vault-id prod@prompt \
+    --ask-become-pass
 ```

@@ -1,0 +1,7 @@
+- hosts: all
+  tasks:
+    - ansible.builtin.include_tasks: load-vars.yaml
+
+- hosts: localhost
+  roles:
+    - helm_mediacms

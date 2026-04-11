@@ -1,0 +1,14 @@
+- hosts: all
+  tasks:
+    - ansible.builtin.include_tasks: load-vars.yaml
+
+- hosts: k3s_servers
+  roles:
+    - k3s
+
+- hosts: localhost
+  roles:
+    - k8s_label_and_annotate_nodes
+    - helm_metallb
+    - helm_tailscale_operator
+    - helm_longhorn
