@@ -6,9 +6,9 @@
 - name: Install
   kubernetes.core.helm:
     chart_ref: longhorn/longhorn
-    chart_version: 1.9.1
+    chart_version: 1.11.1
     release_name: longhorn
     release_namespace: longhorn-system
     create_namespace: true
     update_repo_cache: true
-    values: "{{ lookup('ansible.builtin.template', 'templates/values.yaml') | from_yaml }}"
+    release_values: "{{ lookup('ansible.builtin.template', 'templates/values.yaml') | from_yaml }}"
