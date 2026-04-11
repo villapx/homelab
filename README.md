@@ -22,7 +22,6 @@ First, provision the k3s servers:
 
 ```bash
 ansible-playbook playbook-k8s-install.yaml \
-    --inventory hosts.yaml \
     --vault-id prod@prompt \
     --ask-become-pass \
     --limit k3s_servers
@@ -34,7 +33,6 @@ Then, install the system apps into the k8s cluster:
 
 ```bash
 ansible-playbook playbook-k8s-install.yaml \
-    --inventory hosts.yaml \
     --vault-id prod@prompt \
     --ask-become-pass
 ```
@@ -43,7 +41,6 @@ Finally, install the user apps into the k8s cluster:
 
 ```bash
 ansible-playbook playbook-apps-install.yaml \
-    --inventory hosts.yaml \
     --vault-id prod@prompt \
     --ask-become-pass
 ```
