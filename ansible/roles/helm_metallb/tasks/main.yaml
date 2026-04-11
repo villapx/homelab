@@ -6,12 +6,12 @@
 - name: Install
   kubernetes.core.helm:
     chart_ref: metallb/metallb
-    chart_version: 0.15.2
+    chart_version: 0.15.3
     release_name: metallb
     release_namespace: metallb-system
     create_namespace: true
     update_repo_cache: true
-    values: "{{ lookup('ansible.builtin.template', 'templates/values.yaml') | from_yaml }}"
+    release_values: "{{ lookup('ansible.builtin.template', 'templates/values.yaml') | from_yaml }}"
 
 - name: Create configuration objects
   vars:
