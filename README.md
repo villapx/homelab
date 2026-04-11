@@ -13,6 +13,12 @@ ansible-galaxy collection install -r requirements.yaml
 
 # install python requirements
 pipx runpip ansible-core install -r requirements.txt
+
+# install helm `diff` plugin
+helm plugin install https://github.com/databus23/helm-diff --verify=false
+
+# or, update `diff` later
+helm plugin update diff
 ```
 
 
