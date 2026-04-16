@@ -1,0 +1,2 @@
+domain: "{{ secrets.tailscale.tailnet_dns_name }}"
+secret_key: "{{ secrets.mediacms.secret_key }}"

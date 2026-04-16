@@ -6,9 +6,9 @@
 - name: Install
   kubernetes.core.helm:
     chart_ref: tailscale/tailscale-operator
-    chart_version: 1.88.3
+    chart_version: 1.96.5
     release_name: tailscale-operator
     release_namespace: tailscale
     create_namespace: true
     update_repo_cache: true
-    values: "{{ lookup('ansible.builtin.template', 'templates/values.yaml') | from_yaml }}"
+    release_values: "{{ lookup('ansible.builtin.template', 'templates/values.yaml') | from_yaml }}"

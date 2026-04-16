@@ -1,0 +1,5 @@
+apiVersion: v2
+name: mediacms
+version: "1.0.0"
+appVersion: "7.2.0"
+home: https://github.com/mediacms-io/mediacms/blob/c035bcddf59f28d7f457bd107e9177b0f6bbecef/docker-compose/docker-compose-named-volumes.yaml
