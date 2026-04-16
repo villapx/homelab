@@ -53,7 +53,9 @@ ansible-playbook playbook-k8s-install.yaml \
 
 ## Create storage volumes
 
-After installing Longhorn above, the volumes for the user apps need to be manually created in the Longhorn UI:
+After installing Longhorn above, the volumes for the user apps need to be manually created in the Longhorn UI.
+
+Be sure to create the Longhorn volume, then "create PV" for each volume.
 
 | Volume name            | Size      | Mode | Where it's used
 | ---------------------- | --------- | ---- | ---------------
