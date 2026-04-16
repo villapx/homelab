@@ -2,7 +2,7 @@
 mediacms_version: 7.2.0
 
 # DNS suffix that the mediacms-web Ingress will be exposed under. mediacms uses it to populate URLs and such
-domain: "zonkey-moth.ts.net"
+domain: "dog-snake.ts.net"
 
 # Django secret key used by the mediacms web UI, see Django docs for details
 secret_key: "aaaaaaaaaaaaaaaaa(replace-me-with-a-real-value)bbb"

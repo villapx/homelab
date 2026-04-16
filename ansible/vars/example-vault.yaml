@@ -3,6 +3,8 @@ secrets:
   k3s:
     token: |-
       aaaaaaaaaaBBBBBBBBBBcccccccccc111111111133333333335555555555DDDDDDD::server:aaaaabbbbb11111222224444499999dd
+  tailscale:
+    tailnet_dns_name: "dog-snake.ts.net"
   tailscale_operator:
     oauth:
       client_id: abCDE1234aaaBBBBB
