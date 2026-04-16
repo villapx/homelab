@@ -24,6 +24,8 @@ csi:
 defaultSettings:
   # -- Setting that allows Longhorn to automatically create a default disk only on nodes with the label "node.longhorn.io/create-default-disk=true" (if no other disks exist). When this setting is disabled, Longhorn creates a default disk on each node that is added to the cluster.
   createDefaultDiskLabeledNodes: true
+  # -- Setting that allows scheduling on nodes with healthy replicas of the same volume. This setting is disabled by default.
+  replicaSoftAntiAffinity: true
   # -- Percentage of minimum available disk capacity. When the minimum available capacity exceeds the total available capacity, the disk becomes unschedulable until more space is made available for use. The default value is "25".
   storageMinimalAvailablePercentage: 1
   # -- Percentage of disk space that is not allocated to the default disk on each new Longhorn node.
