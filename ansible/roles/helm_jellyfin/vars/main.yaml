@@ -1,0 +1,11 @@
+jellyfin_chart_version: "3.2.0"
+
+# alpine3.23-r3
+jellyfin_ingest_image: "instrumentisto/rsync-ssh@sha256:6cbad37c2fbdca4ac7ad9d1c1bb8990af9efd4dc76321b349935876cbb1e9e4a"
+
+jellyfin_config_pvc_name: "jellyfin-config"
+
+jellyfin_media_volumes:
+  - { pv_name: "media-music-01",   mount_path: "/media/music/01",   size: "1Ti" }
+  - { pv_name: "media-movies-01",  mount_path: "/media/movies/01",  size: "2Ti" }
+  - { pv_name: "media-tvshows-01", mount_path: "/media/tvshows/01", size: "2Ti" }

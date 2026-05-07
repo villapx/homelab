@@ -1,0 +1,36 @@
+- name: "Add repository"
+  kubernetes.core.helm_repository:
+    repo_name: "jellyfin"
+    repo_url: "https://jellyfin.github.io/jellyfin-helm"
+
+- name: "Apply namespace"
+  kubernetes.core.k8s:
+    api_version: "v1"
+    kind: "Namespace"
+    name: "jellyfin"
+    state: "present"
+
+- name: "Apply config PVC"
+  kubernetes.core.k8s:
+    state: "present"
+    definition: "{{ lookup('ansible.builtin.template', 'templates/config-pvc.yaml') | from_yaml_all | list }}"
+
+- name: "Apply media PVCs"
+  kubernetes.core.k8s:
+    state: "present"
+    definition: "{{ lookup('ansible.builtin.template', 'templates/media-pvcs.yaml') | from_yaml_all | list }}"
+
+- name: "Install"
+  kubernetes.core.helm:
+    chart_ref: "jellyfin/jellyfin"
+    chart_version: "{{ jellyfin_chart_version }}"
+    release_name: "jellyfin"
+    release_namespace: "jellyfin"
+    create_namespace: false
+    update_repo_cache: true
+    release_values: "{{ lookup('ansible.builtin.template', 'templates/values.yaml') | from_yaml }}"
+
+- name: "Apply media-ingest deployment"
+  kubernetes.core.k8s:
+    state: "present"
+    definition: "{{ lookup('ansible.builtin.template', 'templates/media-ingest.yaml') | from_yaml }}"

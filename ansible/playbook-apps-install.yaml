@@ -5,3 +5,4 @@
 - hosts: localhost
   roles:
     - helm_mediacms
+    - helm_jellyfin

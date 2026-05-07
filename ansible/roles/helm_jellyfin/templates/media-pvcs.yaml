@@ -1,0 +1,16 @@
+{% for v in jellyfin_media_volumes %}
+---
+apiVersion: "v1"
+kind: "PersistentVolumeClaim"
+metadata:
+  name: "{{ v.pv_name }}"
+  namespace: "jellyfin"
+spec:
+  storageClassName: "longhorn-static"
+  volumeName: "{{ v.pv_name }}"
+  accessModes:
+    - "ReadWriteMany"
+  resources:
+    requests:
+      storage: "{{ v.size }}"
+{% endfor %}

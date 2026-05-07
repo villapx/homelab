@@ -11,3 +11,6 @@ secrets:
       client_secret: tskey-client-abCDE1234aaaBBBBB-aaaaaBBBBBccccc111112222299999999
   mediacms:
     secret_key: "kdZdSfNsKUP5*XC+uoI8nVrba7CEvV67&az(BYkaHIe-5WscTf"
+  dns:
+    main:
+      name: "example.com"

@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: media-ingest
+  namespace: jellyfin
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: media-ingest
+  template:
+    metadata:
+      labels:
+        app: media-ingest
+    spec:
+      containers:
+        - name: rsync
+          image: "{{ jellyfin_ingest_image }}"
+          command: ["/bin/sh", "-c", "sleep infinity"]
+          volumeMounts:
+{% for v in jellyfin_media_volumes %}
+            - name: "{{ v.pv_name }}"
+              mountPath: "{{ v.mount_path }}"
+{% endfor %}
+      volumes:
+{% for v in jellyfin_media_volumes %}
+        - name: "{{ v.pv_name }}"
+          persistentVolumeClaim:
+            claimName: "{{ v.pv_name }}"
+{% endfor %}

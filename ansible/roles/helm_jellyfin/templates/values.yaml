@@ -1,0 +1,30 @@
+podSecurityContext:
+  fsGroup: 1000
+
+ingress:
+  enabled: true
+  className: "traefik"
+  hosts:
+    - host: "jellyfin.{{ secrets.dns.main.name }}"
+
+volumes:
+{%- for v in jellyfin_media_volumes %}
+  - name: "{{ v.pv_name }}"
+    persistentVolumeClaim:
+      claimName: "{{ v.pv_name }}"
+{%- endfor %}
+
+volumeMounts:
+{%- for v in jellyfin_media_volumes %}
+  - name: "{{ v.pv_name }}"
+    mountPath: "{{ v.mount_path }}"
+{%- endfor %}
+
+persistence:
+  config:
+    enabled: true
+    existingClaim: "{{ jellyfin_config_pvc_name }}"
+  media:
+    enabled: false
+  cache:
+    enabled: false
