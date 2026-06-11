@@ -12,3 +12,8 @@
     create_namespace: true
     update_repo_cache: true
     release_values: "{{ lookup('ansible.builtin.template', 'templates/values.yaml') | from_yaml }}"
+
+- name: Apply global volume encryption secret
+  kubernetes.core.k8s:
+    state: present
+    definition: "{{ lookup('ansible.builtin.template', 'templates/global-encryption-secret.yaml') | from_yaml }}"

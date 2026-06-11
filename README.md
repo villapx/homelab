@@ -57,10 +57,14 @@ After installing Longhorn above, the volumes for the user apps need to be manual
 
 Be sure to create the Longhorn volume, then "create PV" for each volume.
 
-| Volume name            | Size      | Mode | Where it's used
-| ---------------------- | --------- | ---- | ---------------
-| mediacms-media         | >= 200 Gi | RWX  | [mediacms-pvcs.yaml](ansible/roles/helm_mediacms/files/chart/templates/mediacms-pvcs.yaml)
-| mediacms-postgres-data | >= 20 Gi  | RWO  | [postgresql.yaml](ansible/roles/helm_mediacms/files/chart/templates/postgresql.yaml)
+| Volume name            | Size       | Mode | Where it's used
+| ---------------------- | ---------- | ---- | ---------------
+| jellyfin-config        | >= 20 Gi   | RWO  | [config-pvc.yaml](ansible/roles/helm_jellyfin/templates/config-pvc.yaml)
+| media-music-01         | >= 1024 Gi | RWX  | [media-pvcs.yaml](ansible/roles/helm_jellyfin/templates/media-pvcs.yaml)
+| media-movies-01        | >= 2048 Gi | RWX  | [media-pvcs.yaml](ansible/roles/helm_jellyfin/templates/media-pvcs.yaml)
+| media-tvshows-01       | >= 2048 Gi | RWX  | [media-pvcs.yaml](ansible/roles/helm_jellyfin/templates/media-pvcs.yaml)
+| mediacms-media         | >= 200 Gi  | RWX  | [mediacms-pvcs.yaml](ansible/roles/helm_mediacms/files/chart/templates/mediacms-pvcs.yaml)
+| mediacms-postgres-data | >= 20 Gi   | RWO  | [postgresql.yaml](ansible/roles/helm_mediacms/files/chart/templates/postgresql.yaml)
 
 ## Install user apps
 

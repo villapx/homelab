@@ -6,19 +6,22 @@ ingress:
   className: "traefik"
   hosts:
     - host: "jellyfin.{{ secrets.dns.main.name }}"
+      paths:
+        - path: "/"
+          pathType: "Prefix"
 
 volumes:
-{%- for v in jellyfin_media_volumes %}
+{% for v in jellyfin_media_volumes %}
   - name: "{{ v.pv_name }}"
     persistentVolumeClaim:
       claimName: "{{ v.pv_name }}"
-{%- endfor %}
+{% endfor %}
 
 volumeMounts:
-{%- for v in jellyfin_media_volumes %}
+{% for v in jellyfin_media_volumes %}
   - name: "{{ v.pv_name }}"
     mountPath: "{{ v.mount_path }}"
-{%- endfor %}
+{% endfor %}
 
 persistence:
   config:
